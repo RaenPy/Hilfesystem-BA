@@ -425,8 +425,8 @@ html:not(.baseline) .input-with-help .form-select {
    mit garantiert gleichem Abstand, browserunabhängig. */
 .native-date-input {
     position: absolute;
-    width: 1px;
-    height: 1px;
+    width: 1em;
+    height: 1em;
     padding: 0;
     margin: 0;
     border: 0;
