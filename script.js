@@ -313,6 +313,19 @@ class HelpSystem {
         }
     }
 
+    // Es ist immer nur eine Bereichshilfe gleichzeitig offen. Auf Desktop
+    // liegen die Karten per position:absolute neben ihrer Sektion – eine im
+    // Fokus-Modus angedockte Karte wächst dabei über ihre Sektion hinaus und
+    // wurde von der Karte der nächsten Sektion überdeckt, samt fokussierbarer
+    // Links darin (WCAG 2.4.11 Focus Not Obscured, per Playwright-Überlappungs-
+    // test gefunden). Ohne Fokus-Rückgabe (closeHelpSectionCard statt
+    // closeHelpSection): der Fokus wandert ohnehin in die neu geöffnete Karte.
+    closeOtherHelpSections(section) {
+        [...this.helpCardOpeners.keys()]
+            .filter(sec => sec !== section)
+            .forEach(sec => this.closeHelpSectionCard(sec));
+    }
+
     // Voller Modus (Bereichshilfe-Button): zeigt wieder alle Unterabschnitte
     // an der gewohnten Stelle/Position, unabhängig davon, ob die Karte zuvor
     // im Fokus-Modus offen war.
@@ -321,6 +334,8 @@ class HelpSystem {
         if (!card) {
             return;
         }
+
+        this.closeOtherHelpSections(section);
 
         const formSection = card.closest('.form-section');
         if (formSection) {
@@ -352,6 +367,7 @@ class HelpSystem {
             return;
         }
 
+        this.closeOtherHelpSections(section);
         this.resetHelpCardToDefault(card, formSection);
 
         if (topic) {
@@ -492,7 +508,10 @@ function setupDateFieldControls() {
             if (typeof nativeInput.showPicker === 'function') {
                 nativeInput.showPicker();
             } else {
-                nativeInput.focus();
+                // Ohne showPicker() ins sichtbare Textfeld statt ins
+                // unsichtbare native Feld (opacity: 0) – sonst landet der
+                // Fokus auf einem Element ohne sichtbaren Fokusindikator.
+                display.focus();
             }
         });
 

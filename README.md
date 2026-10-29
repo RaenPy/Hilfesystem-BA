@@ -25,6 +25,8 @@ npx serve .
 
 Ist an anderer Stelle bereits eine solche kontextuell geöffnete Bereichshilfe offen und wird eine neue Mikrohilfe geöffnet, schließt sich die alte Bereichshilfe automatisch — zwei offene Hilfe-Ebenen für unterschiedliche Felder gleichzeitig sind nicht vorgesehen.
 
+Es ist immer nur **eine Bereichshilfe gleichzeitig** offen: Öffnet man die Bereichshilfe eines anderen Abschnitts (per Header-Button oder Mikrohilfe-Link), schließt sich die bisher offene automatisch.
+
 **Baseline-Variante ausprobieren**: `index.html?variante=baseline` blendet Mikrohilfe und Bereichshilfe vollständig aus (nicht nur unsichtbar, sondern auch aus Tab-Reihenfolge und Accessibility-Tree entfernt) — als Vergleichsbedingung ohne Hilfesystem.
 
 ## Dateien

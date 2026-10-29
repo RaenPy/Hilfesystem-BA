@@ -316,9 +316,12 @@ label {
     padding-right: 2.25em;
 }
 
+/* Rahmen #86b7fe kam auf Weiß nur auf 2.05:1 – unter den 3:1 aus WCAG
+   1.4.11. Auf --atlas-link (5.25:1) abgedunkelt; greift auch bei
+   Mausfokus, wo der :focus-visible-Ring (siehe unten) nicht erscheint. */
 .form-control:focus,
 .form-select:focus {
-    border-color: #86b7fe;
+    border-color: var(--atlas-link);
     box-shadow: 0 0 0 0.1875em rgba(13, 110, 253, 0.16);
 }
 
@@ -485,6 +488,14 @@ html:not(.baseline) .input-with-help .form-select {
 
 .inline-help p {
     margin-bottom: 0.25em;
+}
+
+/* Aufzählungen in den Hilfetexten (gleichrangige Optionen, Vorgaben,
+   benötigte Unterlagen): Bootstraps Reboot-Abstände (1rem unten, 2rem
+   Einzug) an die Absätze der jeweiligen Hilfe-Ebene angleichen. */
+.inline-help ul {
+    margin-bottom: 0.25em;
+    padding-left: 1.25em;
 }
 
 .inline-help a,
@@ -688,11 +699,22 @@ html:not(.baseline) .input-with-help .form-select {
 }
 
 .help-subsection p,
+.help-subsection ul,
 .help-card-hint p {
     margin-bottom: 1.125em;
     color: #000000;
     font-size: 0.875em;
     line-height: 1.22;
+}
+
+.help-subsection ul {
+    padding-left: 1.25em;
+}
+
+/* Einleitungssatz ("Für dieses Datum gilt:") gehört sichtbar zur
+   folgenden Liste – geringerer Abstand als zwischen zwei Absätzen. */
+.help-subsection p:has(+ ul) {
+    margin-bottom: 0.375em;
 }
 
 .footer {
@@ -723,6 +745,27 @@ html:not(.baseline) .input-with-help .form-select {
 
 .footer a:hover {
     text-decoration: underline;
+}
+
+/* Einheitlicher Tastatur-Fokusring. Bootstrap setzt bei .form-control,
+   .form-select, .form-check-input und .btn "outline: 0" und ersetzt den
+   Browser-Ring durch einen halbtransparenten box-shadow (auf Weiß ca.
+   1.2:1). Das :is(...) hebt die Spezifität auf (0,2,0) – gleichauf mit
+   Bootstrap, gewinnt also durch die spätere Einbindung von style.css.
+   --atlas-link erreicht gegen alle angrenzenden Hintergründe die 3:1 aus
+   WCAG 1.4.11: 5.25:1 auf Weiß, 4.52:1 auf --atlas-bg, 3.4:1 auf
+   --atlas-footer. Der Abstand (outline-offset) hält den Ring vom
+   Elementrahmen frei, damit er auch bei blauen Rahmen/Icons erkennbar
+   bleibt. */
+:is(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 0.125rem solid var(--atlas-link);
+    outline-offset: 0.125rem;
+}
+
+/* Bootstraps schwacher Fokus-Schatten würde zwischen Element und Ring
+   durchscheinen – bei Tastaturfokus übernimmt allein der Ring. */
+:is(.form-control, .form-select, .form-check-input, .btn):focus-visible {
+    box-shadow: none;
 }
 
 @media (max-width: 48em) {
