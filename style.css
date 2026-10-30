@@ -12,7 +12,10 @@
     --atlas-link: #0072ac;
     --atlas-text: #333333;
     --atlas-muted: #5f6368;
-    --atlas-border: #dfe3e7;
+    /* Rahmen der Eingabefelder: #dfe3e7 kam auf Weiß nur auf 1.29:1 – unter
+       den 3:1 aus WCAG 1.4.11, die für die Grenze eines Eingabefelds
+       gelten. Auf #868e96 (3.32:1) abgedunkelt. */
+    --atlas-border: #868e96;
     --atlas-bg: #eeeeef;
     --atlas-footer: #17192a;
     --atlas-radius: 0.625em;
@@ -263,8 +266,26 @@ p {
 .form-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* dense: Steht eine Bereichshilfe-Karte im Fokus-Modus zwischen zwei
+       Feldern einer Zeile (siehe HelpSystem.relocateHelpCardToField),
+       rückt das Nachbarfeld neben das erste Feld nach oben statt unter die
+       Karte. Ohne volle Zeilen-Items hat dense keine Wirkung. */
+    grid-auto-flow: row dense;
     gap: 0.875em 1.125em;
     margin-bottom: 0.875em;
+}
+
+/* Bereichshilfe im Fokus-Modus als Grid-Item: volle Zeilenbreite wie
+   früher, als sie hinter der ganzen Zeile stand. Abstände so gewählt, dass
+   sie mit Zeilen-gap (0.875em) und Zeilen-margin wieder die normalen
+   1em oben / 1.5em unten der .help-card ergeben. Nur unterhalb von 96em –
+   darüber ist die Karte absolut neben der Sektion angedockt, und die
+   höhere Spezifität würde sonst deren margin-left überschreiben. */
+@media not all and (min-width: 96em) {
+    .form-row > .help-card {
+        grid-column: 1 / -1;
+        margin: 0.125em 0 0.625em;
+    }
 }
 
 .form-row.address-row {
@@ -356,8 +377,19 @@ label {
     width: 0.9375em;
     height: 0.9375em;
     margin: 0;
-    border-color: #72a8e5;
-    background-color: #4d9bea;
+    /* Vorher galt background #4d9bea für JEDEN Zustand – eine nicht
+       angehakte Checkbox war ebenfalls blau gefüllt und nur am fehlenden
+       Häkchen erkennbar. Außerdem lagen Füllung (2.92:1) und Rahmen #72a8e5
+       (2.49:1) unter den 3:1 aus WCAG 1.4.11. Jetzt: nicht angehakt weiß
+       mit blauem Rahmen, angehakt blau gefüllt. #3b8ad9 (gleicher Blauton,
+       etwas dunkler) erreicht 3.61:1 auf Weiß – gilt für Rahmen, Füllung
+       und das weiße Häkchen auf der Füllung. */
+    border-color: #3b8ad9;
+    background-color: #ffffff;
+}
+
+.checkbox-group .form-check-input:checked {
+    background-color: #3b8ad9;
 }
 
 .checkbox-group .form-check-label {

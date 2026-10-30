@@ -54,8 +54,8 @@ class HelpSystem {
         // docken direkt am Feld an statt an der Sektion (siehe
         // openHelpSectionFocused). Das umgebende Mikrohilfe-Panel schließt
         // sich dabei, damit nicht zweimal ähnlicher Hilfetext untereinander
-        // steht – es öffnet sich beim Schließen der Bereichshilfe wieder
-        // (siehe closeHelpSection).
+        // steht. Beim Schließen der Bereichshilfe bleibt es zu; der Fokus
+        // geht direkt aufs Formularfeld (siehe closeHelpSectionCard).
         this.helpLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -263,19 +263,25 @@ class HelpSystem {
         return node;
     }
 
-    // Verschiebt die Bereichshilfe-Karte direkt hinter den übergebenen Anker
-    // (die Feld-Zeile, siehe findSectionChild) und setzt die CSS-Custom-
-    // Property fürs Andocken auf Feldhöhe (wirkt nur auf Desktop, siehe
-    // .help-card--focused in style.css – im normalen Textfluss auf Mobile
-    // landet die Karte durch die DOM-Verschiebung allein schon direkt am
-    // Feld). anchor wird vom Aufrufer ermittelt statt hier selbst geclimbt,
-    // damit derselbe Anker auch fürs Scrollen wiederverwendet werden kann.
-    relocateHelpCardToField(card, anchor, formSection) {
+    // Verschiebt die Bereichshilfe-Karte direkt hinter insertAfter und setzt
+    // die CSS-Custom-Property fürs Andocken auf Höhe des Ankers (die Feld-
+    // Zeile, siehe findSectionChild; wirkt nur auf Desktop, siehe
+    // .help-card--focused in style.css). insertAfter ist das Mikrohilfe-
+    // Panel des Felds: Die Karte steht damit im DOM direkt beim Feld und
+    // nicht erst hinter der ganzen Zeile, sodass Shift+Tab aus der Karte
+    // zurück aufs Feld führt statt aufs Nachbarfeld (z.B. Anrede neben Typ).
+    // Liegt das Feld in einer .form-row, kommt die Karte hinter dessen
+    // .form-group statt hinein – als eigenes Grid-Item kann sie per CSS
+    // über die volle Zeilenbreite laufen (siehe .form-row > .help-card),
+    // statt auf die halbe Spaltenbreite gequetscht zu werden. anchor wird
+    // vom Aufrufer ermittelt, damit derselbe Anker auch fürs Scrollen
+    // wiederverwendet werden kann.
+    relocateHelpCardToField(card, anchor, formSection, insertAfter = anchor) {
         if (!anchor) {
             return;
         }
 
-        anchor.after(card);
+        (insertAfter.closest('.form-row > .form-group') ?? insertAfter).after(card);
         const offset = anchor.getBoundingClientRect().top - formSection.getBoundingClientRect().top;
         card.style.setProperty('--help-card-top', `${offset}px`);
         card.classList.add('help-card--focused');
@@ -386,7 +392,7 @@ class HelpSystem {
         const microHelpBtn = help ? this.getMicroHelpBtnFor(help) : null;
         const anchor = this.findSectionChild(microHelpBtn ?? opener, formSection);
 
-        this.relocateHelpCardToField(card, anchor, formSection);
+        this.relocateHelpCardToField(card, anchor, formSection, help ?? anchor);
 
         card.hidden = false;
         this.getSectionHelpBtn(section)?.setAttribute('aria-expanded', 'true');
@@ -525,25 +531,26 @@ function setupDateFieldControls() {
     });
 }
 
-// Koppelt Checkbox und abhängiges Feld: "Land" ist nur relevant, wenn der
+// Koppelt Steuerfeld und abhängiges Feld: "Land" ist nur relevant, wenn der
 // Zahlungspartner NICHT in Deutschland wohnt; "Steuer-ID" ist nur bei einer
-// Honorarzahlung nötig. Das abhängige Feld wird entsprechend deaktiviert
-// (und damit auch aus der Tab-Reihenfolge genommen), nicht nur ausgegraut.
+// Honorarzahlung nötig; "Anrede" entfällt beim Typ "Unternehmen". Das
+// abhängige Feld wird entsprechend deaktiviert (und damit auch aus der
+// Tab-Reihenfolge genommen), nicht nur ausgegraut.
 // Hat das Feld eine eigene Mikrohilfe (z.B. Steuer-ID), wird deren Button
 // im selben Zug deaktiviert und ein bereits geöffnetes Panel geschlossen –
 // ein deaktiviertes Feld soll keine aktivierbare Mikrohilfe mehr haben.
 function setupConditionalFields(helpSystem) {
-    const syncDisabled = (checkboxId, fieldId, disableWhenChecked) => {
-        const checkbox = document.getElementById(checkboxId);
+    const syncDisabled = (controlId, fieldId, isDisabled) => {
+        const control = document.getElementById(controlId);
         const field = document.getElementById(fieldId);
-        if (!checkbox || !field) {
+        if (!control || !field) {
             return;
         }
 
         const microHelpBtn = field.closest('.input-with-help')?.querySelector('.micro-help-btn');
 
         const sync = () => {
-            const disabled = disableWhenChecked ? checkbox.checked : !checkbox.checked;
+            const disabled = isDisabled(control);
             field.disabled = disabled;
 
             if (!microHelpBtn) {
@@ -562,17 +569,21 @@ function setupConditionalFields(helpSystem) {
             }
         };
 
-        checkbox.addEventListener('change', sync);
+        control.addEventListener('change', sync);
         sync();
     };
 
-    syncDisabled('wohnsitz', 'land', true);
-    syncDisabled('honorar', 'steuernr', false);
+    syncDisabled('wohnsitz', 'land', c => c.checked);
+    syncDisabled('honorar', 'steuernr', c => !c.checked);
+    syncDisabled('typ', 'anrede', c => c.value === 'Unternehmen');
 }
 
+// Fälligkeit wie im Original: frühestens heute (Tag der Erfassung),
+// spätestens 31.12.2099 (max-Attribut im Markup). min begrenzt nur den
+// nativen Kalender – die Texteingabe wird bewusst nicht validiert.
 function setDefaultDueDate() {
     const nativeInput = document.getElementById('faellig-value');
-    if (!nativeInput || nativeInput.value) {
+    if (!nativeInput) {
         return;
     }
 
@@ -580,7 +591,11 @@ function setDefaultDueDate() {
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
-    nativeInput.value = `${yyyy}-${mm}-${dd}`;
+    nativeInput.min = `${yyyy}-${mm}-${dd}`;
+
+    if (!nativeInput.value) {
+        nativeInput.value = nativeInput.min;
+    }
 }
 
 // Initialize when DOM is ready
