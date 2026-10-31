@@ -104,13 +104,27 @@ class HelpSystem {
 
                 const btn = this.getMicroHelpBtnFor(help);
                 const control = btn ? this.getAssociatedControl(btn) : null;
+                // Auch wer per Shift+Tab aus dem Panel zurück zum Feld geht,
+                // landet nicht im Panel, sondern auf dem i-Button oder einem
+                // Nachbar-Button im selben Feld (beim Datum: "Kalender
+                // öffnen") – dort muss Escape ebenfalls greifen.
+                const fieldWrapper = btn?.closest('.input-with-help, .checkbox-group');
+                const focusInField = fieldWrapper?.contains(document.activeElement) ?? false;
 
-                if (!help.contains(document.activeElement) && document.activeElement !== control) {
+                if (!focusInField && !help.contains(document.activeElement) && document.activeElement !== control) {
                     return;
                 }
 
                 this.hideInlineHelp(help, btn);
-                (control ?? btn)?.focus();
+                // Fokus im Feld bleibt, wo er ist; aus dem Panel zurück auf
+                // den auslösenden i-Button – derselbe Endzustand wie beim
+                // Schließen per Klick aufs i (Disclosure-Muster). Anders als
+                // bei der Bereichshilfe aus der Mikrohilfe gibt es den
+                // Auslöser hier noch, und das Feld ist nur ein Shift+Tab
+                // entfernt.
+                if (!focusInField) {
+                    btn?.focus();
+                }
             });
 
             const openCard = document.activeElement?.closest('.help-card');

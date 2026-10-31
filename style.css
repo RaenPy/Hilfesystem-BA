@@ -230,6 +230,46 @@ p {
     flex: none;
     width: 111.111%;
     height: 111.111%;
+    /* Fläche über den Button hinaus (Fokusring, s. u.) soll weder Klicks
+       noch Hover abfangen */
+    pointer-events: none;
+}
+
+/* Fokusring als dritter Kreis im selben SVG statt als outline: Die outline
+   wird auf ganze Gerätepixel gerundet, das SVG nicht – bei krummen
+   Positionen (z.B. y = 252.66px) saß der Ring dadurch bis zu einem halben
+   CSS-Pixel schief ums Icon. viewBox und SVG-Größe sind dafür erweitert,
+   die Werte entsprechen der globalen outline (2px breit, 2px Abstand).
+   Die outline bleibt transparent bestehen: Im Kontrastmodus (forced
+   colors) wird sie sichtbar, der SVG-Kreis dort nicht zuverlässig. */
+.micro-help-btn svg {
+    width: 169.44%;
+    height: 169.44%;
+}
+
+.section-help-btn svg {
+    width: 143.06%;
+    height: 143.06%;
+}
+
+:is(.section-help-btn, .micro-help-btn) .icon-focus {
+    fill: none;
+    stroke: var(--atlas-link);
+    stroke-width: 1.266;
+    visibility: hidden;
+}
+
+.micro-help-btn .icon-focus {
+    stroke-width: 2.195;
+}
+
+/* button:… schlägt die globale :focus-visible-Regel weiter unten */
+button:is(.section-help-btn, .micro-help-btn):focus-visible {
+    outline-color: transparent;
+}
+
+:is(.section-help-btn, .micro-help-btn):focus-visible .icon-focus {
+    visibility: visible;
 }
 
 :is(.section-help-btn, .micro-help-btn) .icon-ring {
@@ -443,9 +483,12 @@ html:not(.baseline) .input-with-help .form-control {
 }
 
 /* form-select hat schon ein natives Pfeil-Icon rechts – zusätzlicher
-   Platz fürs Mikrohilfe-Icon links davon, statt es zu überlagern. */
+   Platz fürs Mikrohilfe-Icon links davon, statt es zu überlagern. Der
+   Pfeil sitzt bei Bootstrap in rem/px (right .75rem, 16px breit), das
+   Icon in em – deshalb calc aus beidem: 2rem = Pfeil + .25rem Luft, der
+   em-Anteil = Icon samt Fokusring + Abstand zum Text. */
 html:not(.baseline) .input-with-help .form-select {
-    padding-right: 4.25em;
+    padding-right: calc(2rem + 2.25em);
 }
 
 .micro-help-btn {
@@ -470,16 +513,23 @@ html:not(.baseline) .input-with-help .form-select {
 
 /* Innerhalb eines Feldes schwebt der Button rechts im Feld (wie bei der
    Steuer-ID); außerhalb (z.B. neben einer Überschrift oder einem
-   Checkbox-Label) bleibt er ein normales Inline-Element im Textfluss. */
+   Checkbox-Label) bleibt er ein normales Inline-Element im Textfluss.
+   Vertikal zentriert über top/bottom 0 + margin auto statt
+   top: 50% + translateY(-50%): Der Transform verschob den Button um
+   Bruchteile eines Pixels, Fokusring (outline) und SVG-Inhalt wurden dann
+   unterschiedlich gerundet – der Ring saß sichtbar schief ums Icon. */
 .input-with-help .micro-help-btn {
     position: absolute;
     right: 0.625em;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
+    bottom: 0;
+    margin-block: auto;
 }
 
+/* Der Fokusring (.icon-focus) ragt ~.4em über den Button hinaus und lag
+   mit right: 2.75em 3px im Dropdown-Pfeil. */
 .input-with-help .form-select + .micro-help-btn {
-    right: 2.75em;
+    right: calc(2rem + 0.4em);
 }
 
 /* Datumsfeld: das sichtbare Feld ist ein normales Textfeld (zeigt das
@@ -505,10 +555,11 @@ html:not(.baseline) .input-with-help .form-select {
 }
 
 .field-icon-group {
+    /* zentriert ohne Transform, siehe .input-with-help .micro-help-btn */
     position: absolute;
     right: 0.625em;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
+    bottom: 0;
     display: flex;
     align-items: center;
     gap: 0.5em;
@@ -517,8 +568,8 @@ html:not(.baseline) .input-with-help .form-select {
 .field-icon-group .micro-help-btn {
     position: static;
     top: auto;
+    bottom: auto;
     right: auto;
-    transform: none;
 }
 
 .field-icon-btn {
@@ -869,8 +920,11 @@ html:not(.baseline) .input-with-help .form-select {
         grid-template-columns: 1fr;
     }
 
+    /* column statt column-reverse: Sichtbare Reihenfolge = DOM- und
+       Tab-Reihenfolge (WCAG 1.3.2, 2.4.3), Hauptaktion oben wie links
+       in der Desktop-Ansicht. */
     .form-actions {
-        flex-direction: column-reverse;
+        flex-direction: column;
         margin-top: 1.5em;
     }
 
