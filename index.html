@@ -56,9 +56,9 @@
                     <div class="section-header">
                         <h2 id="zahlungspartner-heading">Zahlungspartner</h2>
                         <button class="section-help-btn" data-section="zahlungspartner" aria-label="Hilfe für Zahlungspartner" aria-expanded="false" aria-controls="help-zahlungspartner">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                            <svg viewBox="0 0 16 16" aria-hidden="true">
+                                <circle class="icon-ring" cx="8" cy="8" r="6.885"/>
+                                <path class="icon-glyph" transform="matrix(.5535 0 0 .5535 3.572 3.572)" d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
                             </svg>
                         </button>
                     </div>
@@ -72,10 +72,10 @@
                         <div class="help-subsection">
                             <p>In diesem Abschnitt erfassen Sie, an wen die Zahlung geht: an einen einzelnen Menschen, zum Beispiel eine Lehrkraft, oder an eine Organisation, zum Beispiel eine Schule oder Firma. Halten Sie dafür folgende Angaben des Zahlungspartners bereit:</p>
                             <ul>
-                                <li>die vollständigen Personen- bzw. Firmendaten</li>
+                                <li>die vollständigen Personendaten oder Firmendaten</li>
                                 <li>die aktuelle Anschrift</li>
                                 <li>die Bankverbindung (IBAN, bei Konten außerhalb Deutschlands zusätzlich BIC)</li>
-                                <li>bei einer Honorarzahlung zusätzlich die Steuer-ID</li>
+                                <li>bei einer Honorarzahlung zusätzlich die Steuer-ID und das Geburtsdatum, bei einem Unternehmen die Steuernummer</li>
                             </ul>
                         </div>
 
@@ -85,20 +85,57 @@
                                 <li>Natürliche Person bedeutet: Die Zahlung geht an einen einzelnen Menschen, zum Beispiel an eine Lehrkraft oder an Schülerinnen und Schüler.</li>
                                 <li>Unternehmen bedeutet: Die Zahlung geht an eine Organisation, zum Beispiel an eine Schule, einen Verein oder eine Firma. Der Fachbegriff dafür ist juristische Person.</li>
                             </ul>
-                            <p>Entscheidend ist, wem das Konto gehört, auf das die Zahlung geht. Wenn Sie Unternehmen wählen, ist das Feld Anrede gesperrt, weil eine Organisation keine Anrede hat.</p>
+                            <p>Wenn Sie Unternehmen wählen, ist das Feld Anrede gesperrt, weil eine Organisation keine Anrede hat. Bei einer Honorarzahlung tragen Sie dann die Steuernummer statt der Steuer-ID ein.</p>
                         </div>
 
                         <div class="help-subsection" data-topic="wohnsitz" tabindex="-1">
                             <h4>Wohnhaft in Deutschland</h4>
-                            <p>Das Häkchen ist schon gesetzt, weil die meisten Zahlungspartner in Deutschland wohnen. Dann hat die Postleitzahl 5 Ziffern. Die IBAN hat 22 Zeichen: DE und 20 Ziffern.</p>
+                            <p>Das Häkchen ist schon gesetzt, weil die meisten Zahlungspartner in Deutschland wohnen. Dann hat die Postleitzahl 5 Ziffern.</p>
                             <p>Wohnt der Zahlungspartner im Ausland, entfernen Sie das Häkchen. Danach können Sie im Feld Land das Land auswählen. Bei einem Konto im Ausland geben Sie zusätzlich die BIC an.</p>
+                        </div>
+
+                        <div class="help-subsection" data-topic="iban" tabindex="-1">
+                            <h4>IBAN</h4>
+                            <p>Die IBAN ist die internationale Kontonummer. Eine deutsche IBAN hat 22 Zeichen: DE und 20 Ziffern. Der Zahlungspartner findet sie zum Beispiel auf der Rechnung oder auf seiner Bankkarte.</p>
+                        </div>
+
+                        <div class="help-subsection" data-topic="bic" tabindex="-1">
+                            <h4>BIC</h4>
+                            <p>Die BIC ist die internationale Bankleitzahl. Bei einem Konto in Deutschland können Sie das Feld leer lassen. Bei einem Konto in einem anderen Land des SEPA-Raums müssen Sie die BIC angeben. Zum SEPA-Raum gehören alle Länder der EU und einige weitere Länder in Europa.</p>
+                            <p>Zahlungen in Länder außerhalb des SEPA-Raums sind im Portal nicht möglich. Schicken Sie in diesem Fall die Rechnung an das Landesamt für Schule. Das Landesamt veranlasst dann die Zahlung.</p>
+                        </div>
+
+                        <div class="help-subsection" data-topic="konto" tabindex="-1">
+                            <h4>Abweichender Kontoinhaber</h4>
+                            <p>Meistens gehört das Konto dem Zahlungspartner. Dann lassen Sie das Feld leer. Gehört das Konto jemand anderem, tragen Sie den Kontoinhaber in zwei Teilen ein. Trennen Sie die beiden Teile immer mit einem Komma:</p>
+                            <ul>
+                                <li>bei einem einzelnen Menschen zuerst den Nachnamen, dann den Vornamen, zum Beispiel: Mustermann, Max Michael</li>
+                                <li>bei einer Organisation zuerst den Firmennamen, dann das Wort Firma, zum Beispiel: Musterfirma GmbH, Firma</li>
+                            </ul>
+                            <p>Jeder Teil darf höchstens 35 Zeichen lang sein, zusammen höchstens 70 Zeichen.</p>
+                        </div>
+
+                        <div class="help-subsection" data-topic="honorar" tabindex="-1">
+                            <h4>Honorarzahlung</h4>
+                            <p>Eine Honorarzahlung ist eine Zahlung für eine ehrenamtliche oder nebenberufliche Tätigkeit. Solche Zahlungen werden dem Finanzamt gemeldet. Deshalb brauchen Sie dafür weitere Angaben:</p>
+                            <ul>
+                                <li>bei einer natürlichen Person die Steuer-ID und das Geburtsdatum</li>
+                                <li>bei einem Unternehmen die Steuernummer</li>
+                            </ul>
+                            <p>Ohne Häkchen sind diese Felder gesperrt.</p>
                         </div>
 
                         <div class="help-subsection" data-topic="steuernr" tabindex="-1">
                             <h4>Steuer-ID</h4>
                             <p>Die Steuer-ID ist eine 11-stellige Nummer. Jede in Deutschland gemeldete Person bekommt sie einmal vom Bundeszentralamt für Steuern. Sie bleibt ein Leben lang gleich.</p>
                             <p>Der Zahlungspartner findet sie zum Beispiel auf dem Einkommensteuerbescheid oder der Lohnabrechnung.</p>
-                            <p>Verwechseln Sie die Steuer-ID nicht mit der Steuernummer. Die Steuernummer vergibt das Finanzamt, und sie kann sich ändern. Sie brauchen die Steuer-ID nur bei einer Honorarzahlung.</p>
+                            <p>Verwechseln Sie die Steuer-ID nicht mit der Steuernummer. Die Steuernummer vergibt das Finanzamt, und sie kann sich ändern. Sie brauchen die Steuer-ID nur bei einer Honorarzahlung an eine natürliche Person.</p>
+                        </div>
+
+                        <div class="help-subsection" data-topic="steuernummer" tabindex="-1">
+                            <h4>Steuernummer</h4>
+                            <p>Die Steuernummer vergibt das Finanzamt an das Unternehmen. Das Unternehmen findet sie zum Beispiel auf Schreiben des Finanzamts oder auf seinen Rechnungen.</p>
+                            <p>Sie brauchen die Steuernummer nur bei einer Honorarzahlung an ein Unternehmen.</p>
                         </div>
 
                         <div class="help-card-hint">
@@ -120,7 +157,7 @@
                                     <option>Natürliche Person</option>
                                     <option>Unternehmen</option>
                                 </select>
-                                <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Typ" aria-expanded="false" aria-controls="microhelp-typ"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/><path d="M9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                                <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Typ" aria-expanded="false" aria-controls="microhelp-typ"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
                             </div>
                             <div class="inline-help" id="microhelp-typ" tabindex="-1" hidden>
                                 <p>Wählen Sie, ob die Zahlung an einen einzelnen Menschen oder an eine Organisation geht.</p>
@@ -171,7 +208,7 @@
                     <div class="form-check checkbox-group">
                         <input type="checkbox" id="wohnsitz" class="form-check-input" checked>
                         <label for="wohnsitz" class="form-check-label">Wohnhaft in Deutschland</label>
-                        <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Wohnhaft in Deutschland" aria-expanded="false" aria-controls="microhelp-wohnsitz"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/><path d="M9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                        <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Wohnhaft in Deutschland" aria-expanded="false" aria-controls="microhelp-wohnsitz"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
                     </div>
 
                     <div class="inline-help" id="microhelp-wohnsitz" tabindex="-1" hidden>
@@ -195,22 +232,49 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="iban">IBAN</label>
-                            <input type="text" id="iban" class="form-control">
+                            <div class="input-with-help">
+                                <input type="text" id="iban" class="form-control">
+                                <button class="micro-help-btn" type="button" aria-label="Mikrohilfe IBAN" aria-expanded="false" aria-controls="microhelp-iban"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                            </div>
+                            <div class="inline-help" id="microhelp-iban" tabindex="-1" hidden>
+                                <p>Tragen Sie die IBAN des Kontos ein, auf das das Geld gehen soll. Eine deutsche IBAN hat 22 Zeichen und beginnt mit DE.</p>
+                                <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungspartner">Bereichshilfe</button>.</p>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="bic">BIC (optional)</label>
-                            <input type="text" id="bic" class="form-control">
+                            <div class="input-with-help">
+                                <input type="text" id="bic" class="form-control">
+                                <button class="micro-help-btn" type="button" aria-label="Mikrohilfe BIC" aria-expanded="false" aria-controls="microhelp-bic"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                            </div>
+                            <div class="inline-help" id="microhelp-bic" tabindex="-1" hidden>
+                                <p>Bei einem Konto in Deutschland können Sie das Feld leer lassen. Bei einem Konto in einem anderen Land müssen Sie die BIC angeben.</p>
+                                <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungspartner">Bereichshilfe</button>.</p>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="konto">Abweichender Kontoinhaber (optional)</label>
-                        <input type="text" id="konto" class="form-control">
+                        <div class="input-with-help">
+                            <input type="text" id="konto" class="form-control" maxlength="70">
+                            <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Abweichender Kontoinhaber" aria-expanded="false" aria-controls="microhelp-konto"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                        </div>
+                        <div class="inline-help" id="microhelp-konto" tabindex="-1" hidden>
+                            <p>Füllen Sie das Feld nur aus, wenn das Konto nicht dem Zahlungspartner gehört. Tragen Sie zuerst den Nachnamen ein, dann ein Komma und den Vornamen, zum Beispiel: Mustermann, Max</p>
+                            <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungspartner">Bereichshilfe</button>.</p>
+                        </div>
                     </div>
 
                     <div class="form-check checkbox-group">
-                        <input type="checkbox" id="honorar" class="form-check-input" checked>
+                        <input type="checkbox" id="honorar" class="form-check-input">
                         <label for="honorar" class="form-check-label">Honorarzahlung</label>
+                        <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Honorarzahlung" aria-expanded="false" aria-controls="microhelp-honorar"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                    </div>
+
+                    <div class="inline-help" id="microhelp-honorar" tabindex="-1" hidden>
+                        <p>Setzen Sie das Häkchen, wenn die Zahlung ein Honorar für eine ehrenamtliche oder nebenberufliche Tätigkeit ist. Dann brauchen Sie zusätzliche Steuerangaben.</p>
+                        <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungspartner">Bereichshilfe</button>.</p>
                     </div>
 
                     <div class="form-row">
@@ -218,10 +282,23 @@
                             <label for="steuernr">Steuer-ID</label>
                             <div class="input-with-help">
                                 <input type="text" id="steuernr" class="form-control" placeholder="-------">
-                                <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Steuer-ID" aria-expanded="false" aria-controls="microhelp-steuernr"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/><path d="M9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                                <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Steuer-ID" aria-expanded="false" aria-controls="microhelp-steuernr"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
                             </div>
                             <div class="inline-help" id="microhelp-steuernr" tabindex="-1" hidden>
                                 <p>Tragen Sie die 11-stellige Steuer-Identifikationsnummer des Zahlungspartners ein. Sie ist nicht dasselbe wie die Steuernummer.</p>
+                                <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungspartner">Bereichshilfe</button>.</p>
+                            </div>
+                        </div>
+                        <!-- Wie im Original: bei Typ Unternehmen ersetzt die Steuernummer
+                             die Steuer-ID (Umschaltung in setupConditionalFields) -->
+                        <div class="form-group input-help-group" hidden>
+                            <label for="steuernummer">Steuernummer</label>
+                            <div class="input-with-help">
+                                <input type="text" id="steuernummer" class="form-control">
+                                <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Steuernummer" aria-expanded="false" aria-controls="microhelp-steuernummer"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                            </div>
+                            <div class="inline-help" id="microhelp-steuernummer" tabindex="-1" hidden>
+                                <p>Tragen Sie die Steuernummer des Unternehmens ein. Sie ist nicht dasselbe wie die Steuer-ID.</p>
                                 <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungspartner">Bereichshilfe</button>.</p>
                             </div>
                         </div>
@@ -254,9 +331,9 @@
                     <div class="section-header">
                         <h2 id="zahlungsdaten-heading">Zahlungsdaten</h2>
                         <button class="section-help-btn" data-section="zahlungsdaten" aria-label="Hilfe für Zahlungsdaten" aria-expanded="false" aria-controls="help-zahlungsdaten">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                            <svg viewBox="0 0 16 16" aria-hidden="true">
+                                <circle class="icon-ring" cx="8" cy="8" r="6.885"/>
+                                <path class="icon-glyph" transform="matrix(.5535 0 0 .5535 3.572 3.572)" d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
                             </svg>
                         </button>
                     </div>
@@ -268,29 +345,37 @@
                         </div>
 
                         <div class="help-subsection">
-                            <p>In diesem Abschnitt erfassen Sie die Angaben zur Zahlung: Betrag, Fälligkeit und Verwendungszweck. Halten Sie dafür die Rechnung oder Zahlungsaufforderung bereit. Dort finden Sie diese Angaben. Ein interner Vermerk ist freiwillig und erscheint nicht in der Buchung.</p>
+                            <p>In diesem Abschnitt erfassen Sie die Angaben zur Zahlung: Betrag, Fälligkeit und Verwendungszweck. Halten Sie dafür die Rechnung oder Zahlungsaufforderung bereit. Dort finden Sie diese Angaben. Ein interner Vermerk ist freiwillig und wird nicht an den Zahlungspartner übermittelt.</p>
                         </div>
 
                         <div class="help-subsection" data-topic="faellig" tabindex="-1">
                             <h4>Fällig am</h4>
-                            <p>Das Fälligkeitsdatum steht meist auf der Rechnung oder der Zahlungsaufforderung, zum Beispiel als zahlbar bis.</p>
-                            <p>Das Datum darf nicht vor dem heutigen Tag liegen. Der heutige Tag ist schon eingetragen. Spätere Daten sind bis zum 31.12.2099 möglich, auch im nächsten Jahr.</p>
+                            <p>Das Fälligkeitsdatum steht meist auf der Rechnung oder der Zahlungsaufforderung, zum Beispiel als zahlbar bis. Der heutige Tag ist schon eingetragen. Für das Datum gilt:</p>
+                            <ul>
+                                <li>nicht vor dem heutigen Tag</li>
+                                <li>höchstens 6 Monate nach dem heutigen Tag</li>
+                                <li>im laufenden Haushaltsjahr, also spätestens am 31. Dezember dieses Jahres</li>
+                            </ul>
+                            <p>Das Geld kommt etwa 5 Werktage nach der Übermittlung an die Staatsoberkasse beim Zahlungspartner an. Planen Sie diese Zeit ein.</p>
                         </div>
 
                         <div class="help-subsection" data-topic="verwendung" tabindex="-1">
                             <h4>Verwendungszweck</h4>
-                            <p>Der Verwendungszweck steht auf dem Kontoauszug des Zahlungspartners. Daran erkennt er, wofür das Geld ist. Übernehmen Sie die Angaben aus der Rechnung, zum Beispiel:</p>
+                            <p>Der Verwendungszweck steht auf dem Kontoauszug des Zahlungspartners. Daran erkennt er, wofür das Geld ist. Tragen Sie immer die Rechnungsnummer ein.</p>
+                            <p>Hat jemand die Rechnung vorab selbst bezahlt, ist das eine Vorabauslage. Nennen Sie dann zusätzlich den ursprünglichen Zahlungsempfänger, zum Beispiel: Vorabauslage für Muster GmbH Rnr. 12345</p>
+                            <p>Sie können höchstens 113 Zeichen eingeben. Leerzeichen zählen mit. Erlaubt sind nur diese Zeichen:</p>
                             <ul>
-                                <li>Rechnungsnummer</li>
-                                <li>Kundennummer</li>
-                                <li>Buchungs- oder Belegnummer</li>
+                                <li>Buchstaben von A bis Z, groß und klein, ohne Umlaute und ohne ß</li>
+                                <li>Ziffern von 0 bis 9</li>
+                                <li>Leerzeichen</li>
+                                <li>Schrägstrich, Fragezeichen, Doppelpunkt, runde Klammern, Punkt, Komma, Apostroph, Pluszeichen und Bindestrich</li>
                             </ul>
-                            <p>Sie können höchstens 113 Zeichen eingeben. Leerzeichen und Satzzeichen zählen mit. Schreiben Sie keine vertraulichen Angaben hinein.</p>
+                            <p>Schreiben Sie Umlaute aus, zum Beispiel ae statt ä und ss statt ß. Mit anderen Zeichen kann die Zahlung nicht übermittelt werden. Schreiben Sie keine vertraulichen Angaben hinein.</p>
                         </div>
 
                         <div class="help-subsection" data-topic="vermerkt" tabindex="-1">
                             <h4>Interner Vermerk</h4>
-                            <p>Der interne Vermerk ist eine Notiz für den internen Gebrauch. Er erscheint nicht in der Buchung und nicht auf dem Kontoauszug. Nutzen Sie ihn zum Beispiel für Angaben zur Mobilität oder zur Versicherung. So finden Sie die Zahlung später leichter wieder.</p>
+                            <p>Der interne Vermerk ist freiwillig. Sie können ihn zum Beispiel für Kommentare, zur Kennzeichnung der einzelnen Mobilitäten oder für die Belegnummer nutzen. Er wird nicht an die Staatsoberkasse und nicht an den Zahlungspartner übermittelt.</p>
                         </div>
 
                         <div class="help-card-hint">
@@ -320,7 +405,7 @@
                                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                                         </svg>
                                     </button>
-                                    <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Fällig am" aria-expanded="false" aria-controls="microhelp-faellig"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/><path d="M9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                                    <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Fällig am" aria-expanded="false" aria-controls="microhelp-faellig"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
                                     <button class="field-icon-btn field-calendar-btn" type="button" data-picker-target="faellig-value" aria-label="Kalender öffnen">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                                             <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
@@ -330,7 +415,7 @@
                                 </div>
                             </div>
                             <div class="inline-help" id="microhelp-faellig" tabindex="-1" hidden>
-                                <p>Tragen Sie das Fälligkeitsdatum aus der Rechnung ein. Das Datum darf nicht in der Vergangenheit liegen.</p>
+                                <p>Tragen Sie das Fälligkeitsdatum aus der Rechnung ein. Es darf nicht in der Vergangenheit und höchstens 6 Monate in der Zukunft liegen.</p>
                                 <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungsdaten">Bereichshilfe</button>.</p>
                             </div>
                         </div>
@@ -340,10 +425,10 @@
                         <label for="verwendung">Verwendungszweck</label>
                         <div class="input-with-help">
                             <input type="text" id="verwendung" class="form-control" maxlength="113">
-                            <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Verwendungszweck" aria-expanded="false" aria-controls="microhelp-verwendung"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/><path d="M9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                            <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Verwendungszweck" aria-expanded="false" aria-controls="microhelp-verwendung"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
                         </div>
                         <div class="inline-help" id="microhelp-verwendung" tabindex="-1" hidden>
-                            <p>Tragen Sie ein, woran der Zahlungspartner die Zahlung erkennt, zum Beispiel die Rechnungsnummer. Höchstens 113 Zeichen, Leerzeichen zählen mit.</p>
+                            <p>Tragen Sie die Rechnungsnummer ein, damit der Zahlungspartner die Zahlung erkennt. Höchstens 113 Zeichen, ohne Umlaute und ohne ß.</p>
                             <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungsdaten">Bereichshilfe</button>.</p>
                         </div>
                     </div>
@@ -352,10 +437,10 @@
                         <label for="vermerkt">Interner Vermerk</label>
                         <div class="input-with-help">
                             <input type="text" id="vermerkt" class="form-control">
-                            <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Interner Vermerk" aria-expanded="false" aria-controls="microhelp-vermerkt"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/><path d="M9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
+                            <button class="micro-help-btn" type="button" aria-label="Mikrohilfe Interner Vermerk" aria-expanded="false" aria-controls="microhelp-vermerkt"><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="icon-ring" cx="8" cy="8" r="6.66"/><path class="icon-glyph" transform="matrix(.6175 0 0 .6175 3.06 3.06)" d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></button>
                         </div>
                         <div class="inline-help" id="microhelp-vermerkt" tabindex="-1" hidden>
-                            <p>Hier können Sie eine Notiz für den internen Gebrauch eintragen. Der Zahlungspartner sieht sie nicht.</p>
+                            <p>Hier können Sie eine interne Notiz eintragen, zum Beispiel die Belegnummer. Sie wird nicht an den Zahlungspartner übermittelt.</p>
                             <p>Weitere Informationen und Hilfen finden Sie in der <button type="button" class="help-link" data-section="zahlungsdaten">Bereichshilfe</button>.</p>
                         </div>
                     </div>
@@ -375,9 +460,9 @@
                     <div class="section-header">
                         <h2 id="anhaenge-heading">Anhänge</h2>
                         <button class="section-help-btn" data-section="anhaenge" aria-label="Hilfe für Anhänge" aria-expanded="false" aria-controls="help-anhaenge">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                            <svg viewBox="0 0 16 16" aria-hidden="true">
+                                <circle class="icon-ring" cx="8" cy="8" r="6.885"/>
+                                <path class="icon-glyph" transform="matrix(.5535 0 0 .5535 3.572 3.572)" d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
                             </svg>
                         </button>
                     </div>

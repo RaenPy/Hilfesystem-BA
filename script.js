@@ -531,56 +531,72 @@ function setupDateFieldControls() {
     });
 }
 
-// Koppelt Steuerfeld und abhängiges Feld: "Land" ist nur relevant, wenn der
-// Zahlungspartner NICHT in Deutschland wohnt; "Steuer-ID" ist nur bei einer
-// Honorarzahlung nötig; "Anrede" entfällt beim Typ "Unternehmen". Das
-// abhängige Feld wird entsprechend deaktiviert (und damit auch aus der
-// Tab-Reihenfolge genommen), nicht nur ausgegraut.
-// Hat das Feld eine eigene Mikrohilfe (z.B. Steuer-ID), wird deren Button
-// im selben Zug deaktiviert und ein bereits geöffnetes Panel geschlossen –
-// ein deaktiviertes Feld soll keine aktivierbare Mikrohilfe mehr haben.
+// Koppelt abhängige Felder an Typ, Wohnsitz und Honorarzahlung wie im
+// Original: "Land" nur, wenn der Zahlungspartner NICHT in Deutschland wohnt;
+// "Anrede" entfällt beim Typ "Unternehmen"; bei einer Honorarzahlung braucht
+// eine natürliche Person Steuer-ID und Geburtsdatum, ein Unternehmen statt
+// der Steuer-ID die Steuernummer (die beiden Felder werden ausgetauscht).
+// Gesperrte Felder werden deaktiviert (und damit aus der Tab-Reihenfolge
+// genommen), nicht nur ausgegraut – samt ihrer Buttons (Mikrohilfe,
+// Kalender, Löschen). Ein bereits geöffnetes Mikrohilfe-Panel wird
+// geschlossen, ein gesperrtes Feld soll keine aktivierbare Mikrohilfe haben.
 function setupConditionalFields(helpSystem) {
-    const syncDisabled = (controlId, fieldId, isDisabled) => {
-        const control = document.getElementById(controlId);
+    const typ = document.getElementById('typ');
+    const wohnsitz = document.getElementById('wohnsitz');
+    const honorar = document.getElementById('honorar');
+    if (!typ || !wohnsitz || !honorar) {
+        return;
+    }
+
+    const isPerson = () => typ.value !== 'Unternehmen';
+
+    const syncField = (fieldId, { disabled = () => false, hidden = () => false }) => {
         const field = document.getElementById(fieldId);
-        if (!control || !field) {
-            return;
+        if (!field) {
+            return () => {};
         }
 
-        const microHelpBtn = field.closest('.input-with-help')?.querySelector('.micro-help-btn');
+        const group = field.closest('.form-group');
+        const wrapper = field.closest('.input-with-help');
+        const buttons = wrapper ? [...wrapper.querySelectorAll('button')] : [];
+        const microHelpBtn = wrapper?.querySelector('.micro-help-btn');
 
-        const sync = () => {
-            const disabled = isDisabled(control);
-            field.disabled = disabled;
-
-            if (!microHelpBtn) {
-                return;
-            }
-
-            microHelpBtn.disabled = disabled;
+        return () => {
+            const isHidden = hidden();
+            const isDisabled = isHidden || disabled();
+            group.hidden = isHidden;
+            field.disabled = isDisabled;
+            buttons.forEach(btn => { btn.disabled = isDisabled; });
 
             // helpSystem fehlt in der Baseline-Variante (siehe
-            // DOMContentLoaded unten) – Feld-Deaktivierung selbst bleibt in
+            // DOMContentLoaded unten) – Feld-Kopplung selbst bleibt in
             // beiden Varianten identisch, nur das Mikrohilfe-Panel gibt es
             // dort gar nicht erst zu schließen.
-            const help = helpSystem?.getInlineHelp(microHelpBtn);
-            if (disabled && help && !help.hidden) {
+            const help = microHelpBtn && helpSystem?.getInlineHelp(microHelpBtn);
+            if (isDisabled && help && !help.hidden) {
                 helpSystem.hideInlineHelp(help, microHelpBtn);
             }
         };
-
-        control.addEventListener('change', sync);
-        sync();
     };
 
-    syncDisabled('wohnsitz', 'land', c => c.checked);
-    syncDisabled('honorar', 'steuernr', c => !c.checked);
-    syncDisabled('typ', 'anrede', c => c.value === 'Unternehmen');
+    const syncs = [
+        syncField('land', { disabled: () => wohnsitz.checked }),
+        syncField('anrede', { disabled: () => !isPerson() }),
+        syncField('steuernr', { disabled: () => !honorar.checked, hidden: () => !isPerson() }),
+        syncField('steuernummer', { disabled: () => !honorar.checked, hidden: isPerson }),
+        syncField('geburtsdatum', { disabled: () => !(honorar.checked && isPerson()) }),
+    ];
+    const syncAll = () => syncs.forEach(sync => sync());
+
+    [typ, wohnsitz, honorar].forEach(control => control.addEventListener('change', syncAll));
+    syncAll();
 }
 
-// Fälligkeit wie im Original: frühestens heute (Tag der Erfassung),
-// spätestens 31.12.2099 (max-Attribut im Markup). min begrenzt nur den
-// nativen Kalender – die Texteingabe wird bewusst nicht validiert.
+// Fälligkeit wie im Original: frühestens heute (Tag der Erfassung); das
+// Datumsfeld selbst nimmt technisch Daten bis 31.12.2099 an (max-Attribut
+// im Markup). Die fachliche Grenze (höchstens 6 Monate, nicht im nächsten
+// Haushaltsjahr) nennt nur die Hilfe – die Texteingabe wird bewusst nicht
+// validiert (Formularvalidierung ist nicht Teil des Vergleichs).
 function setDefaultDueDate() {
     const nativeInput = document.getElementById('faellig-value');
     if (!nativeInput) {

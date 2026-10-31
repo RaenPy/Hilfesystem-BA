@@ -196,11 +196,13 @@ p {
 
 .section-help-btn,
 .micro-help-btn {
+    --icon-ring: #a7acb1;
+    --icon-fill: #f6f7f8;
     width: 1.625em;
     height: 1.625em;
-    border: 0.0625em solid #a7acb1;
+    border: 0;
     border-radius: 50%;
-    background: #f6f7f8;
+    background: none;
     color: #111111;
     display: inline-flex;
     align-items: center;
@@ -211,14 +213,42 @@ p {
     line-height: 1;
 }
 
-.section-help-btn svg {
-    width: 1em;
-    height: 1em;
+/* Ring und "i" sind EIN SVG mit gemeinsamem Koordinatensystem statt
+   CSS-Border + darin zentriertem SVG: Die Border (~1px bei krummer
+   em-Boxgröße, z.B. 13.13px) wurde je nach Position und Zoomstufe auf
+   ganze Gerätepixel gerundet, das SVG darin nicht – dadurch saß das "i"
+   je nach Icon um einen halben Pixel außermittig, und der Ring wirkte beim
+   Hineinzoomen stufig. Als Vektor sind beide konzentrisch und skalieren
+   bei jedem Zoom scharf. */
+/* Das SVG ist um 1/0.9 größer als der Button und der Ring endet bei 90 %
+   der viewBox (Außenkante bei 7.2 von 8): Firefox rastert das SVG in eine
+   auf Gerätepixel gerundete Box und schnitt einen Ring, der genau bis an
+   deren Rand reichte, je nach Position und Zoom (auch Trackpad-Zoom) mit
+   geraden Kanten ab. Mit dem Rand ringsum bleibt der Ring sichtbar gleich
+   groß, Button-Box und Layout bleiben unverändert. */
+:is(.section-help-btn, .micro-help-btn) svg {
+    flex: none;
+    width: 111.111%;
+    height: 111.111%;
+}
+
+:is(.section-help-btn, .micro-help-btn) .icon-ring {
+    fill: var(--icon-fill);
+    stroke: var(--icon-ring);
+    stroke-width: 0.63;
+}
+
+.micro-help-btn .icon-ring {
+    stroke-width: 1.08;
+}
+
+:is(.section-help-btn, .micro-help-btn) .icon-glyph {
+    fill: currentColor;
 }
 
 .section-help-btn:hover,
 .micro-help-btn:hover {
-    border-color: var(--atlas-link);
+    --icon-ring: var(--atlas-link);
     color: var(--atlas-link);
 }
 
@@ -227,8 +257,7 @@ p {
 .micro-help-btn:disabled,
 .micro-help-btn:disabled:hover {
     opacity: 0.5;
-    cursor: not-allowed;
-    border-color: #4d9bea;
+    --icon-ring: #4d9bea;
     color: #006ff6;
 }
 
@@ -306,6 +335,12 @@ p {
     margin-bottom: 0.875em;
 }
 
+/* display:flex würde sonst das hidden-Attribut überstimmen
+   (Austausch Steuer-ID/Steuernummer, setupConditionalFields) */
+.form-group[hidden] {
+    display: none;
+}
+
 .form-row .form-group {
     margin-bottom: 0;
 }
@@ -354,7 +389,6 @@ label {
 .form-select:disabled {
     background-color: #ffffff;
     opacity: 0.5;
-    cursor: not-allowed;
 }
 
 .form-control::placeholder {
@@ -415,11 +449,11 @@ html:not(.baseline) .input-with-help .form-select {
 }
 
 .micro-help-btn {
+    --icon-ring: #4d9bea;
+    --icon-fill: #ffffff;
     flex: 0 0 auto;
     width: 1.25em;
     height: 1.25em;
-    border-color: #4d9bea;
-    background: #ffffff;
     /* #2d8cff lag mit 3.33:1 unter dem WCAG-AA-Mindestkontrast (4.5:1) für
        das kleine i-Icon – auf 4.56:1 abgedunkelt. */
     color: #006ff6;
@@ -431,12 +465,8 @@ html:not(.baseline) .input-with-help .form-select {
    wodurch das "i" in Firefox sichtbar nach unten verschoben wirkte. Ein
    SVG-Pfad zentriert sich über die Box-Geometrie statt über Baseline/
    Zeilenhöhe und ist dadurch browserübergreifend konsistent (Pfade aus
-   Bootstrap Icons "info-circle", ohne den Kreis – der kommt schon von der
-   CSS-Border oben). */
-.micro-help-btn svg {
-    width: 1em;
-    height: 1em;
-}
+   Bootstrap Icons "info-circle", ohne deren Kreis – der Ring ist ein
+   eigener <circle>, siehe .icon-ring oben). */
 
 /* Innerhalb eines Feldes schwebt der Button rechts im Feld (wie bei der
    Steuer-ID); außerhalb (z.B. neben einer Überschrift oder einem
@@ -505,6 +535,14 @@ html:not(.baseline) .input-with-help .form-select {
 
 .field-icon-btn:hover {
     color: var(--atlas-link);
+}
+
+/* Gesperrtes Datumsfeld: Kalender/Löschen abgeblendet wie das Feld, ohne
+   Hover-Farbe – sonst sah ein gesperrter Button beim Überfahren aktiv aus. */
+.field-icon-btn:disabled,
+.field-icon-btn:disabled:hover {
+    opacity: 0.5;
+    color: #6c757d;
 }
 
 .field-clear-btn[hidden] {
